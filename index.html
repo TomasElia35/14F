@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invitación Especial ❤️</title>
     <style>
-        /* CSS: Estilos y Animaciones */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -14,7 +13,7 @@
             min-height: 100vh;
             background-color: #fff0f3;
             margin: 0;
-            overflow: hidden; /* Evita scroll por los corazones */
+            overflow: hidden;
         }
 
         .card {
@@ -38,7 +37,9 @@
         .buttons {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         button {
@@ -47,12 +48,13 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s, background-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         #yesBtn {
             background-color: #ff4d6d;
             color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
         }
 
         #yesBtn:hover {
@@ -61,13 +63,20 @@
         }
 
         #noBtn {
-            background-color: #adb5bd;
-            color: white;
+            background-color: #f8bbd0;
+            color: #ad1457;
         }
 
-        .hidden {
-            display: none;
+        /* Mensaje tierno para el "No" */
+        #sadMessage {
+            margin-top: 20px;
+            color: #c2185b;
+            font-style: italic;
+            font-size: 0.95rem;
+            animation: fadeIn 0.5s ease;
         }
+
+        .hidden { display: none; }
 
         /* Información de la cita */
         #info {
@@ -90,7 +99,7 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -98,7 +107,6 @@
         .heart {
             position: fixed;
             top: -10vh;
-            font-size: 20px;
             user-select: none;
             z-index: 1;
             pointer-events: none;
@@ -106,9 +114,7 @@
         }
 
         @keyframes fall {
-            to {
-                transform: translateY(110vh) translateX(20px);
-            }
+            to { transform: translateY(110vh) translateX(20px); }
         }
     </style>
 </head>
@@ -116,79 +122,79 @@
 
     <div class="card">
         <div id="questionContainer">
-            <h1>¿Quieres ser mi San Valentín este 14 de febrero? 🌹</h1>
+            <h1>¿Me darías el honor de ser mi San Valentín? ✨</h1>
             <div class="buttons">
-                <button id="yesBtn">¡Sí, claro!</button>
-                <button id="noBtn">No</button>
+                <button id="yesBtn">¡Claro que sí! ❤️</button>
+                <button id="noBtn">Aún no lo sé...</button>
+            </div>
+            <div id="sadMessage" class="hidden">
+                Prometo que será un día muy especial... <br> ¿Te lo piensas un poquito más? 🥺
             </div>
         </div>
 
         <div id="info" class="hidden">
-            <h1>¡Excelente elección! ❤️</h1>
+            <h1>¡Me haces muy feliz! ❤️</h1>
             <ul class="details-list">
-                <li>📍 <strong>Destino:</strong> Punta Cana, Republica Dominicana.</li>
-                <li>📅 <strong>Día:</strong> 28 de Febrero, 2026.</li>
-                <li>⏰ <strong>Horario:</strong> 23:00 hs.</li>
-                <li>👗 <strong>Vestimenta:</strong> Valija llena y mente relajada.</li>
+                <li>📍 <strong>Destino:</strong> Punta Cana, Republica Dominicana</li>
+                <li>📅 <strong>Día:</strong> 28 de Febrero</li>
+                <li>⏰ <strong>Horario:</strong> 23:00 hs hs</li>
+                <li>👗 <strong>Vestimenta:</strong> Como tú quieras, te ves genial con todo.</li>
             </ul>
-            <p style="color: #ff4d6d; margin-top: 20px;"><b>¡Te espero!</b></p>
+            <p style="color: #ff4d6d; margin-top: 20px;"><b>¡Contando los días!</b></p>
         </div>
     </div>
 
     <script>
-        // JS: Lógica de interacción
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const questionContainer = document.getElementById('questionContainer');
         const info = document.getElementById('info');
+        const sadMessage = document.getElementById('sadMessage');
+
+        let scale = 1;
 
         yesBtn.addEventListener('click', () => {
-            // Intercambiar contenido
             questionContainer.classList.add('hidden');
             info.classList.remove('hidden');
-
-            // Lanzar lluvia de corazones
             lanzarCorazones();
         });
 
         noBtn.addEventListener('click', () => {
-            alert("No hay problema, pero no podes decir que no!");
+            // Mostrar mensaje tierno
+            sadMessage.classList.remove('hidden');
+            
+            // Hacer que el botón SÍ crezca un poco cada vez que se duda
+            scale += 0.1;
+            yesBtn.style.transform = `scale(${scale})`;
+            
+            // Cambiar el texto del botón NO por algo más sutil
+            noBtn.innerText = "¿Segur@? 😢";
         });
 
         function lanzarCorazones() {
-            const totalCorazones = 40;
+            const totalCorazones = 50;
+            const emojis = ['❤️', '💖', '💝', '💕', '🌸'];
             
             for (let i = 0; i < totalCorazones; i++) {
                 setTimeout(() => {
-                    crearCorazon();
-                }, i * 150); // Aparecen de forma escalonada
+                    crearCorazon(emojis[Math.floor(Math.random() * emojis.length)]);
+                }, i * 100);
             }
         }
 
-        function crearCorazon() {
+        function crearCorazon(emoji) {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            heart.innerText = '❤️';
-            
-            // Posición horizontal aleatoria
+            heart.innerText = emoji;
             heart.style.left = Math.random() * 100 + "vw";
-            
-            // Tamaño aleatorio
             heart.style.fontSize = Math.random() * (30 - 15) + 15 + "px";
-            
-            // Duración de caída aleatoria
             const duration = Math.random() * (5 - 3) + 3;
             heart.style.animationDuration = duration + "s";
-            
-            // Opacidad aleatoria para variedad
-            heart.style.opacity = Math.random();
+            heart.style.opacity = Math.random() * 0.7 + 0.3;
 
             document.body.appendChild(heart);
 
-            // Eliminar elemento después de que caiga
-            setTimeout(() => {
-                heart.remove();
-            }, duration * 1000);
+            setTimeout(() => { heart.remove(); }, duration * 1000);
         }
     </script>
 </body>
