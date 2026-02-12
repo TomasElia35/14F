@@ -1,133 +1,195 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>¿Me amas?</title>
-  <style>
-    body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family:Arial, sans-serif;
-      background: linear-gradient(180deg,#fffbe7,#ffd6e0);
-      padding:20px;
-      text-align:center;
-    }
-    h1{
-      color:#ff4f81;
-      font-size:2rem;
-    }
-    .btn{
-      cursor:pointer;
-      padding:12px 20px;
-      font-size:1rem;
-      border-radius:10px;
-      border:none;
-      margin:8px;
-      transition:transform .12s ease;
-    }
-    .btn:active{transform:translateY(2px)}
-    .yes{ background:#ffdd57; color:#333 }
-    .no { background:#ff4f81; color:white }
-    .bouquet-container{
-      margin-top:22px;
-      opacity:0;
-      transform:translateY(8px);
-      transition:opacity .36s ease, transform .36s ease;
-    }
-    .bouquet-container.show{
-      opacity:1;
-      transform:translateY(0);
-    }
-    .bouquet-msg{
-      font-weight:bold;
-      color:#333;
-    }
-    .bouquet-img{
-      width:260px;
-      max-width:70%;
-      margin-top:14px;
-      border-radius:12px;
-      box-shadow:0 18px 40px rgba(0,0,0,0.12);
-      animation:float 2.2s ease-in-out infinite alternate;
-    }
-    @keyframes float{
-      from{ transform: translateY(0) rotate(-1deg) }
-      to{ transform: translateY(-16px) rotate(2deg) }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación Especial ❤️</title>
+    <style>
+        /* CSS: Estilos y Animaciones */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #fff0f3;
+            margin: 0;
+            overflow: hidden; /* Evita scroll por los corazones */
+        }
+
+        .card {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            background-color: #ff758f;
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background-color: #adb5bd;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Información de la cita */
+        #info {
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .details-list {
+            text-align: left;
+            background-color: #fff5f7;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed #ffb3c1;
+            list-style: none;
+        }
+
+        .details-list li {
+            margin: 10px 0;
+            color: #590d22;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Corazones cayendo */
+        .heart {
+            position: fixed;
+            top: -10vh;
+            font-size: 20px;
+            user-select: none;
+            z-index: 1;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) translateX(20px);
+            }
+        }
+    </style>
 </head>
 <body>
-  <main>
-    <h1 id="questionText">¿Me amas? 💕</h1>
 
-    <div id="buttons">
-      <button id="yesBtn" class="btn yes">Sí 💛</button>
-      <button id="noBtn" class="btn no">No 💔</button>
+    <div class="card">
+        <div id="questionContainer">
+            <h1>¿Quieres ser mi San Valentín este 14 de febrero? 🌹</h1>
+            <div class="buttons">
+                <button id="yesBtn">¡Sí, claro!</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+
+        <div id="info" class="hidden">
+            <h1>¡Excelente elección! ❤️</h1>
+            <ul class="details-list">
+                <li>📍 <strong>Destino:</strong> Tu restaurante favorito.</li>
+                <li>📅 <strong>Día:</strong> 14 de Febrero, 2026.</li>
+                <li>⏰ <strong>Horario:</strong> 20:30 hs.</li>
+                <li>👗 <strong>Vestimenta:</strong> Como te sientas más increíble.</li>
+            </ul>
+            <p style="color: #ff4d6d; margin-top: 20px;"><b>¡Te espero!</b></p>
+        </div>
     </div>
 
-    <div id="bouquetContainer" class="bouquet-container"></div>
-  </main>
+    <script>
+        // JS: Lógica de interacción
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionContainer = document.getElementById('questionContainer');
+        const info = document.getElementById('info');
 
-  <script>
-    const questions = [
-      "¿Me amarás mañana? 🌞",
-      "¿Me regalas una sonrisa ahora? 😊",
-      "¿Puedo contar contigo siempre? ✨",
-      "¿Quieres compartir este 21 de septiembre conmigo? 💛",
-      "¿Entonces... me amas? 💘"
-    ];
-    let followIndex = 0;
-    let bouquetShown = false;
+        yesBtn.addEventListener('click', () => {
+            // Intercambiar contenido
+            questionContainer.classList.add('hidden');
+            info.classList.remove('hidden');
 
-    const qText = document.getElementById('questionText');
-    const yesBtn = document.getElementById('yesBtn');
-    const noBtn  = document.getElementById('noBtn');
-    const buttons = document.getElementById('buttons');
-    const bouquetContainer = document.getElementById('bouquetContainer');
+            // Lanzar lluvia de corazones
+            lanzarCorazones();
+        });
 
-    yesBtn.addEventListener('click', answerYes);
-    noBtn.addEventListener('click', answerNo);
+        noBtn.addEventListener('click', () => {
+            alert("No hay problema, ¡amigos por siempre! 😊");
+        });
 
-    function answerYes(){
-      if (bouquetShown) return;
-      createBouquet();
-    }
+        function lanzarCorazones() {
+            const totalCorazones = 40;
+            
+            for (let i = 0; i < totalCorazones; i++) {
+                setTimeout(() => {
+                    crearCorazon();
+                }, i * 150); // Aparecen de forma escalonada
+            }
+        }
 
-    function answerNo(){
-      if (followIndex < questions.length) {
-        qText.textContent = questions[followIndex];
-        followIndex++;
-      } else {
-        const rnd = Math.floor(Math.random()*questions.length);
-        qText.textContent = questions[rnd];
-      }
-    }
+        function crearCorazon() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = '❤️';
+            
+            // Posición horizontal aleatoria
+            heart.style.left = Math.random() * 100 + "vw";
+            
+            // Tamaño aleatorio
+            heart.style.fontSize = Math.random() * (30 - 15) + 15 + "px";
+            
+            // Duración de caída aleatoria
+            const duration = Math.random() * (5 - 3) + 3;
+            heart.style.animationDuration = duration + "s";
+            
+            // Opacidad aleatoria para variedad
+            heart.style.opacity = Math.random();
 
-    function createBouquet(){
-      bouquetShown = true;
+            document.body.appendChild(heart);
 
-      qText.style.display = 'none';
-      buttons.style.display = 'none';
-
-      bouquetContainer.innerHTML = '';
-
-      const msg = document.createElement('p');
-      msg.className = 'bouquet-msg';
-      msg.textContent = '¡Sí! 🌻 Aquí tienes tu flor amarilla — feliz 21 de septiembre 💛';
-      bouquetContainer.appendChild(msg);
-
-      const img = document.createElement('img');
-      img.className = 'bouquet-img';
-      img.alt = 'Flor amarilla';
-      img.src = 'ChatGPT Image Sep 21, 2025, 06_54_56 PM.png';
-
-      bouquetContainer.appendChild(img);
-      requestAnimationFrame(()=> bouquetContainer.classList.add('show'));
-    }
-  </script>
+            // Eliminar elemento después de que caiga
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+    </script>
 </body>
 </html>
